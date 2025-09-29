@@ -561,6 +561,61 @@
             box-shadow: 0 0 40px #e1306c;
         }
 
+        /* Social link icon/text styling */
+        .social-link .social-icon {
+            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.6rem;
+            transition: transform 0.18s ease, filter 0.18s ease;
+        }
+
+        .social-link .social-text {
+            transition: transform 0.18s ease, opacity 0.18s ease;
+            opacity: 1 !important; /* ensure visible */
+            font-weight: 800;
+        }
+
+        /* Explicit default colors per network to avoid disappearing text */
+        .social-link.discord .social-text {
+            color: #7289da !important;
+        }
+
+        .social-link.instagram .social-text {
+            color: #e1306c !important;
+        }
+
+        .social-link:active .social-icon,
+        .social-link:focus .social-icon,
+        .social-link:hover .social-icon {
+            transform: scale(1.12) rotate(-6deg);
+            filter: drop-shadow(0 0 10px rgba(0,255,65,0.35));
+        }
+
+        .social-link:active .social-text,
+        .social-link:focus .social-text,
+        .social-link:hover .social-text {
+            transform: translateX(2px);
+            opacity: 1;
+            /* default readable color on hover */
+            color: #000;
+            text-shadow: none;
+        }
+
+        /* Ensure high contrast for branded hover backgrounds */
+        .social-link.discord:active .social-text,
+        .social-link.discord:focus .social-text,
+        .social-link.discord:hover .social-text {
+            color: #fff;
+        }
+
+        .social-link.instagram:active .social-text,
+        .social-link.instagram:focus .social-text,
+        .social-link.instagram:hover .social-text {
+            color: #fff;
+        }
+
         /* Footer */
         footer {
             background: rgba(0, 0, 0, 0.9);
@@ -1118,6 +1173,89 @@
             transform: translateY(0);
             pointer-events: auto;
         }
+        /* Portfolio styles */
+        .portfolio {
+            padding: 100px 0;
+            background: rgba(0,0,0,0.15);
+        }
+
+        .portfolio-subtitle {
+            text-align: center;
+            color: rgba(0,255,65,0.8);
+            margin-bottom: 2rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem;
+            margin-top: 2.5rem;
+        }
+
+        .portfolio-item {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #00ff41;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,255,65,0.12);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px rgba(0,255,65,0.18);
+            border-color: #00ffff;
+        }
+
+        .portfolio-media img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .portfolio-body {
+            padding: 1.2rem;
+            color: rgba(0,255,65,0.9);
+            font-family: 'Fira Code', monospace;
+            flex-grow: 1;
+        }
+
+        .portfolio-body h3 {
+            color: #00ff41;
+            margin-bottom: 0.6rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .portfolio-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .portfolio-cta .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 26px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 992px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .portfolio-media img {
+                height: 160px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1137,7 +1275,7 @@
             <ul class="nav-links">
                 <li><a href="#home">HOME</a></li>
                 <li><a href="#services">SERVIZI</a></li>
-                <!-- <li><a href="#portfolio">PORTFOLIO</a></li> -->
+                <li><a href="#portfolio">PORTFOLIO</a></li>
                 <li><a href="#about">ABOUT</a></li>
                 <li><a href="#contact">CONTATTI</a></li>
             </ul>
@@ -1198,26 +1336,51 @@
     </section>
 
     <!-- Portfolio Section -->
-    <!-- <section id="portfolio" class="portfolio"> 
+    <section id="portfolio" class="portfolio">
         <div class="container">
             <h2 class="section-title animate-on-scroll">ARCHIVIO_PROGETTI</h2>
             <p class="portfolio-subtitle animate-on-scroll">Esplora i nostri lavori e scopri cosa possiamo creare per te</p>
-            
-            <div class="portfolio-container animate-on-scroll">
-                <a href="https://docs.google.com/document/d/1vdlDxvAXn5msxvCh-slRrPXGQHM2XwluKxdQuRzN7js/edit?tab=t.0" target="_blank" class="portfolio-card">
-                    <div class="portfolio-icon-wrapper">
-                        <img src="https://i.imgur.com/nUgfULw.png" alt="Portfolio Icon" class="portfolio-icon" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%2300ff41%22 opacity=%220.1%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%2300ff41%22%3E📁%3C/text%3E%3C/svg%3E';">
+
+            <div class="portfolio-grid animate-on-scroll">
+                <article class="portfolio-item">
+                    <div class="portfolio-media">
+                        <img src="https://i.imgur.com/rWjJbS1.png" alt="Project 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22%3E%3Crect width=%22300%22 height=%22180%22 fill=%22%23000%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%2300ff41%22%3EPROJECT%3C/text%3E%3C/svg%3E';">
                     </div>
-                    <h3 class="portfolio-title">VISUALIZZA PORTFOLIO COMPLETO</h3>
-                    <p class="portfolio-description">Clicca per esplorare tutti i nostri progetti, case studies e collaborazioni nel dettaglio</p>
-                    <div class="portfolio-arrow">
-                        <span>ACCEDI AI PROGETTI</span>
-                        <span class="arrow-icon">→</span>
+                    <div class="portfolio-body">
+                        <h3>CASE STUDY: GFC DASH</h3>
+                        <p>Dashboard aziendale realtime: analytics, notifiche e integrazione API. UI ottimizzata e performance.</p>
                     </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-media">
+                        <img src="https://i.imgur.com/rWjJbS1.png" alt="Project 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22%3E%3Crect width=%22300%22 height=%22180%22 fill=%22%23000%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%2300ff41%22%3EPROJECT%3C/text%3E%3C/svg%3E';">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>ECOMMERCE COSMIC</h3>
+                        <p>Store digitale con sistema di checkout rapido, gestione ordini e integrazione pagamenti sicuri.</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-media">
+                        <img src="https://i.imgur.com/rWjJbS1.png" alt="Project 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22%3E%3Crect width=%22300%22 height=%22180%22 fill=%22%23000%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%2300ff41%22%3EPROJECT%3C/text%3E%3C/svg%3E';">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>BRAND EXPERIENCE</h3>
+                        <p>Campagna digitale con asset animati, landings e strategie social integrate per conversioni misurabili.</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="portfolio-cta animate-on-scroll">
+                <a href="https://docs.google.com/document/d/1vdlDxvAXn5msxvCh-slRrPXGQHM2XwluKxdQuRzN7js/edit?tab=t.0" target="_blank" class="cta-button">
+                    <span>📁</span>
+                    VISUALIZZA PORTFOLIO COMPLETO
                 </a>
             </div>
         </div>
-    </section> -->
+    </section>
 
 
     <!-- About Section -->
@@ -1267,13 +1430,13 @@
             
             <div class="social-links animate-on-scroll">
                 <a href="https://discord.gg/p9wBbNHz9B" target="_blank" class="social-link discord">
-                    <span style="font-size: 1.5rem;">🎮</span>
-                    <span>DISCORD_MATRIX</span>
+                    <span class="social-icon" aria-hidden="true">🎮</span>
+                    <span class="social-text">DISCORD_MATRIX</span>
                 </a>
                 
                 <a href="https://www.instagram.com/gfcshop.official/" target="_blank" class="social-link instagram">
-                    <span style="font-size: 1.5rem;">📸</span>
-                    <span>INSTA_PORTALE</span>
+                    <span class="social-icon" aria-hidden="true">📸</span>
+                    <span class="social-text">INSTA_PORTALE</span>
                 </a>
             </div>
         </div>
